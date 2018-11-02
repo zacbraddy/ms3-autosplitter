@@ -1,7 +1,8 @@
 state("mslug3") {
   byte yPos : 0x000F0D24, 0x528;
   byte gameState : "libcocos2d.dll", 0x001672FC, 0x18, 0x0C;
-  byte levelState: 0x00090B1C, 0xC0
+  byte levelState: 0x00090B1C, 0xC0;
+  int level1BossState: 0xFAE48;
 }
 
 startup {
@@ -11,6 +12,7 @@ startup {
   byte THE_GROUND_ON_FIRST_LEVEL = 96;
   byte LEVEL1_OVERGROUND_SPLIT_AT = 99;
   byte LEVEL1_UNDERGROUND_SPLIT_AT = 75;
+  int LEVEL1_BOSS_IS_ALIVE = 356515840;
 
   // Start Functions
   Func<int, bool> isAtFirstSplit = (splitNo) => splitNo == 0;
@@ -33,9 +35,11 @@ startup {
   // Splitting Functions
   Func<byte, bool> isAtLevel1OvergroundSplit = (levelState) => levelState == LEVEL1_OVERGROUND_SPLIT_AT;
   Func<byte, bool> isAtLevel1UndergroundSplit = (levelState) => levelState == LEVEL1_UNDERGROUND_SPLIT_AT;
+  Func<int, bool> isLevel1BossDead = (level1BossState) => level1BossState != LEVEL1_BOSS_IS_ALIVE;
 
   vars.isAtLevel1OvergroundSplit = isAtLevel1OvergroundSplit;
   vars.isAtLevel1UndergroundSplit = isAtLevel1UndergroundSplit;
+  vars.isLevel1BossDead = isLevel1BossDead;
 
   // Init split marker
   vars.split = 0;
@@ -76,6 +80,9 @@ split {
       break;
     case 2:
       shouldSplit = vars.isAtLevel1UndergroundSplit(current.levelState);
+      break;
+    case 3:
+      shouldSplit = vars.isLevel1BossDead(current.level1BossState);
       break;
   }
 
