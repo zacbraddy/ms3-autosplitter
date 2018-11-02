@@ -9,6 +9,7 @@ Current functionality available:
 - Splits on:
   - Between the screen change after the player enters the capsule at the end of the overground section of the first level.
   - Between the screen change between the underground section of the first level and the first boss.
+  - When the first boss dies
 
 Current functionality drawbacks:
 - There is no way to specify which splits you want to use you are forced to use my very granular splits in future I'd like to put in settings so you can set your splits.
