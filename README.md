@@ -11,6 +11,9 @@ Current functionality available:
   - Between the screen change between the underground section of the first level and the first boss.
   - When the first boss dies
   - When the second boss dies
+  - Between the screen change after the player enters the tunnel that leads to the boardwalk on the third level.
+  - Between the screen change after the player leaves the boardwalk and enters the third boss.
+  - When the third boss dies
 
 Current functionality drawbacks:
 - There is no way to specify which splits you want to use you are forced to use my very granular splits in future I'd like to put in settings so you can configure which splits you want to use.
