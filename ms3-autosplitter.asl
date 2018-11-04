@@ -5,8 +5,7 @@ state("mslug3") {
   int hugeHermitState: 0xFAE48;
   int tenCommandmentsOfMosesState: 0xF22C8;
   int mission3PhaseState: 0xF0E6C;
-  // This is a shitty jupiter king state need to find a better one
-  int jupiterKingState: 0xF8EB0; 
+  int jupiterKingState: 0xF1EBC; 
 }
 
 startup {
@@ -42,7 +41,7 @@ startup {
   int MISSION3_SCUBA = 342403584;
   int MISSION3_BOARD_WALK = 308340765;
   int MISSION3_JUPITER_KING = 291554718;
-  int MISSION3_JUPITER_KING_ALIVE = 305194592;
+  int MISSION3_JUPITER_KING_ALIVE = 321974883;
 
   // Start Functions
   Func<byte, bool> characterHasLandedInWaterOnFirstMission = yPos => yPos == THE_GROUND_ON_FIRST_LEVEL;
@@ -68,14 +67,19 @@ startup {
   Func<dynamic, dynamic, bool> isInHugeHermitSplit = (thisOld, thisCurrent) => thisCurrent.mission1PhaseState == MISSION1_HUGEHERMIT;
   Func<dynamic, dynamic, bool> isHugeHermitDead = (thisOld, thisCurrent) => thisCurrent.hugeHermitState != MISSION1_HUGE_HERMIT_ALIVE;
   Func<dynamic, dynamic, bool> finishedHugeHermitTest = (thisOld, thisCurrent) => isInHugeHermitSplit(thisOld, thisCurrent) && isHugeHermitDead(thisOld, thisCurrent);
-  Func<dynamic, dynamic, bool> isIn10CommandmentsOfMosesPhaseTest = (thisOld, thisCurrent) => thisCurrent.tenCommandmentsOfMosesState == MISSION2_IN_10_COMMMANDENTS_OF_MOSSES_PHASE;
-  Func<dynamic, dynamic, bool> is10CommandmentsOfMosesDeadTest = (thisOld, thisCurrent) => !isIn10CommandmentsOfMosesPhaseTest(thisOld, thisCurrent);
-  Func<dynamic, dynamic, bool> isInLevel3ScubaTest = (thisOld, thisCurrent) => thisCurrent.mission3PhaseState == MISSION3_SCUBA;
-  Func<dynamic, dynamic, bool> finishedLevel3ScubaTest = (thisOld, thisCurrent) => thisCurrent.mission3PhaseState == MISSION3_BOARD_WALK;
-  Func<dynamic, dynamic, bool> finishedLevel3BoardwalkTest = (thisOld, thisCurrent) => thisCurrent.mission3PhaseState == MISSION3_JUPITER_KING;
-  Func<dynamic, dynamic, bool> isInJupiterKingSplit = (thisOld, thisCurrent) => thisCurrent.mission3PhaseState == MISSION3_JUPITER_KING;
-  Func<dynamic, dynamic, bool> isJupiterKingDead = (thisOld, thisCurrent) => thisCurrent.mission3BossState != MISSION3_JUPITER_KING_ALIVE;
-  Func<dynamic, dynamic, bool> finishedJupiterKingTest = (thisOld, thisCurrent) => isInJupiterKingSplit(thisOld, thisCurrent) && isJupiterKingDead(thisOld, thisCurrent);
+Func<dynamic, dynamic, bool> isIn10CommandmentsOfMosesPhaseTest = (thisOld, thisCurrent) => thisCurrent.tenCommandmentsOfMosesState == MISSION2_IN_10_COMMMANDENTS_OF_MOSSES_PHASE;
+Func<dynamic, dynamic, bool> is10CommandmentsOfMosesDeadTest = (thisOld, thisCurrent) => !isIn10CommandmentsOfMosesPhaseTest(thisOld, thisCurrent);
+Func<dynamic, dynamic, bool> isInLevel3ScubaTest = (thisOld, thisCurrent) => thisCurrent.mission3PhaseState == MISSION3_SCUBA;
+Func<dynamic, dynamic, bool> finishedLevel3ScubaTest = (thisOld, thisCurrent) => thisCurrent.mission3PhaseState == MISSION3_BOARD_WALK;
+Func<dynamic, dynamic, bool> finishedLevel3BoardwalkTest = (thisOld, thisCurrent) => thisCurrent.mission3PhaseState == MISSION3_JUPITER_KING;
+Func<dynamic, dynamic, bool> isInJupiterKingSplit = (thisOld, thisCurrent) => thisCurrent.mission3PhaseState == MISSION3_JUPITER_KING;
+Func<dynamic, dynamic, bool> hasJupiterKingSpawnedTest = (thisOld, thisCurrent) => isInJupiterKingSplit(thisOld, thisCurrent) && thisCurrent.jupiterKingState == MISSION3_JUPITER_KING_ALIVE;
+Func<dynamic, dynamic, bool> isJupiterKingDead = (thisOld, thisCurrent) => thisCurrent.jupiterKingState != MISSION3_JUPITER_KING_ALIVE;
+Func<dynamic, dynamic, bool> finishedJupiterKingTest = (thisOld, thisCurrent) => {
+  print("mission3PhaseState " + thisCurrent.mission3PhaseState);
+  print("jupiterKingState" + thisCurrent.jupiterKingState);
+  return isInJupiterKingSplit(thisOld, thisCurrent) && isJupiterKingDead(thisOld, thisCurrent);
+};
 
   Func<dynamic, dynamic, int> finishedLevel1BeachSplit = (thisOld, thisCurrent) => split(thisOld, thisCurrent, finishedLevel1BeachSplitTest);
   Func<dynamic, dynamic, int> finishedLevel1StorageSplit = (thisOld, thisCurrent) => split(thisOld, thisCurrent, finishedLevel1StorageSplitTest);
@@ -85,6 +89,7 @@ startup {
   Func<dynamic, dynamic, int> isInLevel3Scuba = (thisOld, thisCurrent) => quietSplit(thisOld, thisCurrent, isInLevel3ScubaTest);
   Func<dynamic, dynamic, int> finishedLevel3Scuba = (thisOld, thisCurrent) => split(thisOld, thisCurrent, finishedLevel3ScubaTest);
   Func<dynamic, dynamic, int> finishedLevel3Boardwalk = (thisOld, thisCurrent) => split(thisOld, thisCurrent, finishedLevel3BoardwalkTest);
+  Func<dynamic, dynamic, int> hasJupiterKingSpawned = (thisOld, thisCurrent) => quietSplit(thisOld, thisCurrent, hasJupiterKingSpawnedTest);
   Func<dynamic, dynamic, int> finishedJupiterKing = (thisOld, thisCurrent) => split(thisOld, thisCurrent, finishedJupiterKingTest);
 
   // Function to initialise split queue ready for a new run
@@ -107,7 +112,11 @@ startup {
     }
 
     if (thisSettings["mission3_Boardwalk"]) vars.splits.Enqueue(finishedLevel3Boardwalk);
-    if (thisSettings["mission3_JupiterKing"]) vars.splits.Enqueue(finishedJupiterKing);
+
+    if (thisSettings["mission3_JupiterKing"]) {
+      vars.splits.Enqueue(hasJupiterKingSpawned);
+      vars.splits.Enqueue(finishedJupiterKing);
+    }
   };
 
   vars.initialiseSplits = initialiseSplits;
@@ -140,6 +149,8 @@ reset {
 }
 
 start {
+  // Settings don't cause a restart so this is the best way of reloading split settings without having to reload the autosplitter
+  vars.initialiseSplits(settings);
   if (settings["mission1_Beach"] && vars.splits.Peek()(old, current) > vars.DONT_SPLIT) {
     vars.splits.Dequeue();
     return true;
