@@ -5,9 +5,10 @@ state("mslug3") {
   int hugeHermitState: 0xFAE48;
   int tenCommandmentsOfMosesState: 0xF22C8;
   int mission3PhaseState: 0xF0E6C;
-  int jupiterKingState: 0xF1EBC; 
+  int jupiterKingState: 0xF1EB8; 
   int mission4PhaseState: 0xF0DAC;
   int solDaeRokkerState: 0xF20D4;
+  int mission5PhaseState: 0xF93C0;
 }
 
 startup {
@@ -43,11 +44,14 @@ startup {
   int MISSION3_SCUBA = 342403584;
   int MISSION3_BOARD_WALK = 308340765;
   int MISSION3_JUPITER_KING = 291554718;
-  int MISSION3_JUPITER_KING_ALIVE = 321974883;
+  int MISSION3_JUPITER_KING_ALIVE = 321974931;
   int MISSION4_DESERT = 325119846;
   int MISSION4_TEMPLE = 509635901;
   int MISSION4_SOL_DAE_ROKKER = 308310380;
   int MISSION4_SOL_DAE_ROKKER_ALIVE = 325122318;
+  int MISSION5_DOG_FIGHT = 372309627;
+  int MISSION5_ONEIL = 372309668;
+  int MISSION5_HI_DO = 1744961043;
 
   // Start Functions
   Func<byte, bool> characterHasLandedInWaterOnFirstMission = yPos => yPos == THE_GROUND_ON_FIRST_LEVEL;
@@ -87,6 +91,8 @@ startup {
   Func<dynamic, dynamic, bool> isInSolDaeRokkerSplit = (thisOld, thisCurrent) => thisCurrent.mission4PhaseState == MISSION4_SOL_DAE_ROKKER;
   Func<dynamic, dynamic, bool> isSolDaeRokkerDead = (thisOld, thisCurrent) => thisCurrent.solDaeRokkerState != MISSION4_SOL_DAE_ROKKER_ALIVE;
   Func<dynamic, dynamic, bool> finishedSolDaeRokkerTest = (thisOld, thisCurrent) => isInSolDaeRokkerSplit(thisOld, thisCurrent) && isSolDaeRokkerDead(thisOld, thisCurrent);
+  Func<dynamic, dynamic, bool> finishedMission5DogFightTest = (thisOld, thisCurrent) => thisCurrent.mission5PhaseState == MISSION5_ONEIL;
+  Func<dynamic, dynamic, bool> finishedMission5OneilTest = (thisOld, thisCurrent) => thisCurrent.mission5PhaseState == MISSION5_HI_DO;
 
   Func<dynamic, dynamic, int> finishedMission1BeachSplit = (thisOld, thisCurrent) => split(thisOld, thisCurrent, finishedMission1BeachSplitTest);
   Func<dynamic, dynamic, int> finishedMission1StorageSplit = (thisOld, thisCurrent) => split(thisOld, thisCurrent, finishedMission1StorageSplitTest);
@@ -101,6 +107,8 @@ startup {
   Func<dynamic, dynamic, int> finishedMission4Desert = (thisOld, thisCurrent) => split(thisOld, thisCurrent, finishedMission4DesertTest);
   Func<dynamic, dynamic, int> finishedMission4Temple = (thisOld, thisCurrent) => split(thisOld, thisCurrent, finishedMission4TempleTest);
   Func<dynamic, dynamic, int> finishedSolDaeRokker = (thisOld, thisCurrent) => split(thisOld, thisCurrent, finishedSolDaeRokkerTest);
+  Func<dynamic, dynamic, int> finishedMission5DogFight = (thisOld, thisCurrent) => split(thisOld, thisCurrent, finishedMission5DogFightTest);
+  Func<dynamic, dynamic, int> finishedMission5Oneil = (thisOld, thisCurrent) => split(thisOld, thisCurrent, finishedMission5OneilTest);
 
   // Function to initialise split queue ready for a new run
   Action<dynamic> initialiseSplits = thisSettings => {
@@ -131,6 +139,9 @@ startup {
     if (thisSettings["mission4_Desert"]) vars.splits.Enqueue(finishedMission4Desert);
     if (thisSettings["mission4_Temple"]) vars.splits.Enqueue(finishedMission4Temple);
     if (thisSettings["mission4_SolDaeRokker"]) vars.splits.Enqueue(finishedSolDaeRokker);
+
+    if (thisSettings["mission5_DogFight"]) vars.splits.Enqueue(finishedMission5DogFight);
+    if (thisSettings["mission5_Oneil"]) vars.splits.Enqueue(finishedMission5Oneil);
   };
 
   vars.initialiseSplits = initialiseSplits;
@@ -153,6 +164,10 @@ startup {
   settings.Add("mission4_Desert", true, "Mission 4 - Desert", "mission4");
   settings.Add("mission4_Temple", true, "Mission 4 - Temple", "mission4");
   settings.Add("mission4_SolDaeRokker", true, "Mission 4 - Sol Dae Rokker (Boss)", "mission4");
+
+  settings.Add("mission5", true, "Mission 5 - All About Love");
+  settings.Add("mission5_DogFight", true, "Mission 5 - Dog fight", "mission5");
+  settings.Add("mission5_Oneil", true, "Mission 5 - Oneil", "mission5");
 }
 
 init {
