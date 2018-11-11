@@ -10,6 +10,7 @@ state("mslug3") {
   int solDaeRokkerState: 0xF20D4;
   int mission5PhaseState: 0xF4ABC;
   int isInOneilPhaseState: 0xF2DA4;
+  byte isOneilDead: 0xF2F45;
 }
 
 startup {
@@ -51,6 +52,7 @@ startup {
   int MISSION4_SOL_DAE_ROKKER = 308310380;
   int MISSION4_SOL_DAE_ROKKER_ALIVE = 325122318;
   int MISSION5_ONEIL = 393226953;
+  byte MISSION5_ONEIL_DEAD = 0xFF;
   int MISSION5_HI_DO = 309340669;
 
   // Start Functions
@@ -92,7 +94,7 @@ startup {
   Func<dynamic, dynamic, bool> isSolDaeRokkerDead = (thisOld, thisCurrent) => thisCurrent.solDaeRokkerState != MISSION4_SOL_DAE_ROKKER_ALIVE;
   Func<dynamic, dynamic, bool> finishedSolDaeRokkerTest = (thisOld, thisCurrent) => isInSolDaeRokkerSplit(thisOld, thisCurrent) && isSolDaeRokkerDead(thisOld, thisCurrent);
   Func<dynamic, dynamic, bool> finishedMission5DogFightTest = (thisOld, thisCurrent) => thisCurrent.isInOneilPhaseState == MISSION5_ONEIL;
-  Func<dynamic, dynamic, bool> finishedMission5OneilTest = (thisOld, thisCurrent) => thisCurrent.mission5PhaseState == MISSION5_HI_DO;
+  Func<dynamic, dynamic, bool> finishedMission5OneilTest = (thisOld, thisCurrent) => thisCurrent.isOneilDead == MISSION5_ONEIL_DEAD;
 
   Func<dynamic, dynamic, int> finishedMission1BeachSplit = (thisOld, thisCurrent) => split(thisOld, thisCurrent, finishedMission1BeachSplitTest);
   Func<dynamic, dynamic, int> finishedMission1StorageSplit = (thisOld, thisCurrent) => split(thisOld, thisCurrent, finishedMission1StorageSplitTest);
