@@ -102,7 +102,7 @@ startup {
   Func<dynamic, dynamic, bool> finishedMission5OneilTest = (thisOld, thisCurrent) => thisCurrent.isOneilDead == MISSION5_ONEIL_DEAD;
   Func<dynamic, dynamic, bool> finishedMission5HiDoTest = (thisOld, thisCurrent) => thisCurrent.isHiDoDead == MISSION5_HI_DO_DEAD;
   Func<dynamic, dynamic, bool> finishedMission5RugnameTest = (thisOld, thisCurrent) => thisCurrent.isRugnameDead < 0;
-  Func<dynamic, dynamic, bool> finishedMission5MissionControlTest = (thisOld, thisCurrent) => thisCurrent.isInMissionControl == MISSION5_MISSION_CONTROL;
+  Func<dynamic, dynamic, bool> finishedMission5RugnameChuteTest = (thisOld, thisCurrent) => thisCurrent.isInMissionControl == MISSION5_MISSION_CONTROL;
 
   Func<dynamic, dynamic, int> finishedMission1BeachSplit = (thisOld, thisCurrent) => split(thisOld, thisCurrent, finishedMission1BeachSplitTest);
   Func<dynamic, dynamic, int> finishedMission1StorageSplit = (thisOld, thisCurrent) => split(thisOld, thisCurrent, finishedMission1StorageSplitTest);
@@ -121,7 +121,7 @@ startup {
   Func<dynamic, dynamic, int> finishedMission5Oneil = (thisOld, thisCurrent) => split(thisOld, thisCurrent, finishedMission5OneilTest);
   Func<dynamic, dynamic, int> finishedMission5HiDo = (thisOld, thisCurrent) => split(thisOld, thisCurrent, finishedMission5HiDoTest);
   Func<dynamic, dynamic, int> finishedMission5Rugname = (thisOld, thisCurrent) => split(thisOld, thisCurrent, finishedMission5RugnameTest);
-  Func<dynamic, dynamic, int> finishedMission5MissionControl = (thisOld, thisCurrent) => split(thisOld, thisCurrent, finishedMission5MissionControlTest);
+  Func<dynamic, dynamic, int> finishedMission5RugnameChute = (thisOld, thisCurrent) => split(thisOld, thisCurrent, finishedMission5RugnameChuteTest);
 
   // Function to initialise split queue ready for a new run
   Action<dynamic> initialiseSplits = thisSettings => {
@@ -157,7 +157,7 @@ startup {
     if (thisSettings["mission5_Oneil"]) vars.splits.Enqueue(finishedMission5Oneil);
     if (thisSettings["mission5_HiDo"]) vars.splits.Enqueue(finishedMission5HiDo);
     if (thisSettings["mission5_Rugname"]) vars.splits.Enqueue(finishedMission5Rugname);
-    if (thisSettings["mission5_MissionControl"]) vars.splits.Enqueue(finishedMission5MissionControl);
+    if (thisSettings["mission5_RugnameChute"]) vars.splits.Enqueue(finishedMission5RugnameChute);
   };
 
   vars.initialiseSplits = initialiseSplits;
@@ -186,7 +186,7 @@ startup {
   settings.Add("mission5_Oneil", true, "Mission 5 - Oneil", "mission5");
   settings.Add("mission5_HiDo", true, "Mission 5 - HiDo", "mission5");
   settings.Add("mission5_Rugname", true, "Mission 5 - Rugname", "mission5");
-  settings.Add("mission5_MissionControl", true, "Mission 5 - Mission Control", "mission5");
+  settings.Add("mission5_RugnameChute", true, "Mission 5 - Rugname chute", "mission5");
 }
 
 init {
