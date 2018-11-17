@@ -25,8 +25,9 @@ Current functionality available:
     - When you finished the Dog fight section of mission 5 and transition to the jetpack chase section
     - When Oneil dies and lands on the ground
     - When HiDo explodes
-    - When Rugname explodes
-    - When you enter the Rugname corridor that leads to mission control on the rugname
+    - Between the screen change after Rugname explodes and the player enters the rugname chute
+    - Between the screen change after the player punches into the corridor leading to saving Morden on the rugname
+    - Between the screen change after the player saves Morden and enters the corridor that leads to fake root mars
 
 Current functionality drawbacks:
 - Not sure if this is just an autosplitter thing or not but if you have the splits in a complete state then they won't reset you have to reset them manually, the reset only works if you have a split in progress.
