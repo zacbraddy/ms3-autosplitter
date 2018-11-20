@@ -31,3 +31,4 @@ Current functionality available:
 
 Current functionality drawbacks:
 - Not sure if this is just an autosplitter thing or not but if you have the splits in a complete state then they won't reset you have to reset them manually, the reset only works if you have a split in progress.
+- Fake root mars dead and clone bubble dead have both been added but I'm about 75% convinced that fake root mars is working correctly and about 10% sure that clone bubble is working correctly
