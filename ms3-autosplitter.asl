@@ -14,7 +14,7 @@ state("mslug3") {
   int isHiDoDead: 0xF3F34;
   int isRugnameDead: 0xFC53C;
   int mission5LevelState: 0xF0DF4;
-  byte isFakeRootMarsDead: 0x12A595;
+  byte fakeRootMarsState: 0xF4538;
   byte isCloneBubbleDead: 0x12A595;
 }
 
@@ -111,7 +111,8 @@ startup {
   Func<dynamic, dynamic, bool> finishedMission5RugnameTest = (thisOld, thisCurrent) => thisCurrent.mission5LevelState == MISSION5_RUGNAME_CHUTE;
   Func<dynamic, dynamic, bool> finishedMission5RugnameChuteTest = (thisOld, thisCurrent) => thisCurrent.mission5LevelState == MISSION5_SAVE_MORDEN;
   Func<dynamic, dynamic, bool> finishedMission5SaveMordenTest = (thisOld, thisCurrent) => thisCurrent.mission5LevelState == MISSION5_FAKE_ROOT_MARS_CORRIDOR;
-  Func<dynamic, dynamic, bool> finishedMission5FakeRootMarsTest = (thisOld, thisCurrent) => thisCurrent.mission5LevelState == MISSION5_IN_FAKE_ROOT_MARS && thisCurrent.isFakeRootMarsDead == MISSION5_FAKE_ROOT_MARS_DEAD;
+  Func<dynamic, dynamic, bool> fakeRootMarsAboutToDieTest = (thisOld, thisCurrent) => thisCurrent.mission5LevelState == MISSION5_IN_FAKE_ROOT_MARS && thisCurrent.fakeRootMarsState != 0;
+  Func<dynamic, dynamic, bool> finishedMission5FakeRootMarsTest = (thisOld, thisCurrent) => thisCurrent.fakeRootMarsState != thisOld.fakeRootMarsState;
   Func<dynamic, dynamic, bool> finishedMission5CloneBubbleTest = (thisOld, thisCurrent) => thisCurrent.mission5LevelState == MISSION5_IN_CLONE_BUBBLE && thisCurrent.isCloneBubbleDead == MISSION5_CLONE_BUBBLE_DEAD;
 
   Func<dynamic, dynamic, int> finishedMission1BeachSplit = (thisOld, thisCurrent) => split(thisOld, thisCurrent, finishedMission1BeachSplitTest);
@@ -133,6 +134,7 @@ startup {
   Func<dynamic, dynamic, int> finishedMission5Rugname = (thisOld, thisCurrent) => split(thisOld, thisCurrent, finishedMission5RugnameTest);
   Func<dynamic, dynamic, int> finishedMission5RugnameChute = (thisOld, thisCurrent) => split(thisOld, thisCurrent, finishedMission5RugnameChuteTest);
   Func<dynamic, dynamic, int> finishedMission5SaveMorden = (thisOld, thisCurrent) => split(thisOld, thisCurrent, finishedMission5SaveMordenTest);
+  Func<dynamic, dynamic, int> fakeRootMarsAboutToDie = (thisOld, thisCurrent) => quietSplit(thisOld, thisCurrent, fakeRootMarsAboutToDieTest);
   Func<dynamic, dynamic, int> finishedMission5FakeRootMars = (thisOld, thisCurrent) => split(thisOld, thisCurrent, finishedMission5FakeRootMarsTest);
   Func<dynamic, dynamic, int> finishedMission5CloneBubble = (thisOld, thisCurrent) => split(thisOld, thisCurrent, finishedMission5CloneBubbleTest);
 
@@ -172,7 +174,10 @@ startup {
     if (thisSettings["mission5_Rugname"]) vars.splits.Enqueue(finishedMission5Rugname);
     if (thisSettings["mission5_RugnameChute"]) vars.splits.Enqueue(finishedMission5RugnameChute);
     if (thisSettings["mission5_SaveMorden"]) vars.splits.Enqueue(finishedMission5SaveMorden);
-    if (thisSettings["mission5_FakeRootMars"]) vars.splits.Enqueue(finishedMission5FakeRootMars);
+    if (thisSettings["mission5_FakeRootMars"]) {
+      vars.splits.Enqueue(fakeRootMarsAboutToDie);
+      vars.splits.Enqueue(finishedMission5FakeRootMars);
+    }
     if (thisSettings["mission5_CloneBubble"]) vars.splits.Enqueue(finishedMission5CloneBubble);
   };
 
