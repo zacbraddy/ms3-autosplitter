@@ -15,7 +15,7 @@ state("mslug3") {
   int isRugnameDead: 0xFC53C;
   int mission5LevelState: 0xF0DF4;
   byte fakeRootMarsState: 0xF4538;
-  byte isCloneBubbleDead: 0x12A595;
+  int isCloneBubbleDead: 0xF0DC8;
 }
 
 startup {
@@ -64,7 +64,7 @@ startup {
   int MISSION5_FAKE_ROOT_MARS_CORRIDOR = 275789385;
   byte MISSION5_FAKE_ROOT_MARS_DEAD = 251;
   int MISSION5_IN_FAKE_ROOT_MARS = 493893209;
-  byte MISSION5_CLONE_BUBBLE_DEAD = 251;
+  int MISSION5_CLONE_BUBBLE_DEAD = 292567903;
   int MISSION5_IN_CLONE_BUBBLE = 274726912;
 
   // Start Functions
@@ -177,6 +177,7 @@ startup {
     if (thisSettings["mission5_FakeRootMars"]) {
       vars.splits.Enqueue(fakeRootMarsAboutToDie);
       vars.splits.Enqueue(finishedMission5FakeRootMars);
+      vars.splits.Enqueue(finishedMission5FakeRootMars); // Not a mistake the state changes twice during the fight
     }
     if (thisSettings["mission5_CloneBubble"]) vars.splits.Enqueue(finishedMission5CloneBubble);
   };
