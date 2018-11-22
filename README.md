@@ -28,9 +28,9 @@ Current functionality available:
     - Between the screen change after Rugname explodes and the player enters the rugname chute
     - Between the screen change after the player punches into the corridor leading to saving Morden on the rugname
     - Between the screen change after the player saves Morden and enters the corridor that leads to fake root mars
-    - When Fake Root Mars dies
+    - Between the screen change after the player kills Fake Root Mars
     - When the clone bubble dies
+    - When True Root Mars dies
 
 Current functionality drawbacks:
 - Not sure if this is just an autosplitter thing or not but if you have the splits in a complete state then they won't reset you have to reset them manually, the reset only works if you have a split in progress.
-- Fake root mars dead split needs more testing could be a bit fickle, seems like some times state changes once and sometimes it changes twice, need to do more play testing on that one.

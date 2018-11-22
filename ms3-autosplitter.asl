@@ -16,6 +16,7 @@ state("mslug3") {
   int mission5LevelState: 0xF0DF4;
   byte fakeRootMarsState: 0xF4538;
   int isCloneBubbleDead: 0xF0DC8;
+  int isTrueRootMarsDead: 0xF80C8;
 }
 
 startup {
@@ -43,7 +44,7 @@ startup {
   byte IN_GAME = 0x2E;
   byte MAIN_MENU = 38;
   byte THE_GROUND_ON_FIRST_LEVEL = 96;
-  int MISSION1_BEACH = 6291456;
+  int MISSION1_BEACH = 6291456; // Not used in the script but can in the future if you want it this is used in mission1LeveStae
   int MISSION1_STORAGE = 325058560;
   int MISSION1_HUGEHERMIT = 1868562432;
   int MISSION1_HUGE_HERMIT_ALIVE = 356515840;
@@ -52,7 +53,7 @@ startup {
   int MISSION3_BOARD_WALK = 308340765;
   int MISSION3_JUPITER_KING = 291554718;
   int MISSION3_JUPITER_KING_ALIVE = 321974931;
-  int MISSION4_DESERT = 325119846;
+  int MISSION4_DESERT = 325119846; // Again not used but it's the level state if future developers need it
   int MISSION4_TEMPLE = 509635901;
   int MISSION4_SOL_DAE_ROKKER = 308310380;
   int MISSION4_SOL_DAE_ROKKER_ALIVE = 325122318;
@@ -62,10 +63,12 @@ startup {
   int MISSION5_RUGNAME_CHUTE = 275788071;
   int MISSION5_SAVE_MORDEN = 275788183;
   int MISSION5_FAKE_ROOT_MARS_CORRIDOR = 275789385;
-  byte MISSION5_FAKE_ROOT_MARS_DEAD = 251;
-  int MISSION5_IN_FAKE_ROOT_MARS = 493893209;
+  int MISSION5_IN_FAKE_ROOT_MARS = 493893209; // Also not used but can be if needed
+  int MISSION5_IN_CLONE_BUBBLE_CORRIDOR = 359675891;
   int MISSION5_CLONE_BUBBLE_DEAD = 292567903;
   int MISSION5_IN_CLONE_BUBBLE = 274726912;
+  int MISSION5_IN_TRUE_ROOT_MARS = 292568862;
+  int MISSION5_TRUE_ROOT_MARS_DEAD = 339738624;
 
   // Start Functions
   Func<byte, bool> characterHasLandedInWaterOnFirstMission = yPos => yPos == THE_GROUND_ON_FIRST_LEVEL;
@@ -78,8 +81,6 @@ startup {
       && characterHasLandedInWaterOnFirstMission(thisCurrent.yPos); // Start the split when the character hits the water
 
   Func<dynamic, dynamic, int> startSplitting = (thisOld, thisCurrent) => split(thisOld, thisCurrent, startSplittingTest);
-
-  vars.isInGame = isInGame;
 
   // Reset/Update Functions
   Func<byte, bool> isAtMainMenu = ptr => ptr == MAIN_MENU;
@@ -111,9 +112,9 @@ startup {
   Func<dynamic, dynamic, bool> finishedMission5RugnameTest = (thisOld, thisCurrent) => thisCurrent.mission5LevelState == MISSION5_RUGNAME_CHUTE;
   Func<dynamic, dynamic, bool> finishedMission5RugnameChuteTest = (thisOld, thisCurrent) => thisCurrent.mission5LevelState == MISSION5_SAVE_MORDEN;
   Func<dynamic, dynamic, bool> finishedMission5SaveMordenTest = (thisOld, thisCurrent) => thisCurrent.mission5LevelState == MISSION5_FAKE_ROOT_MARS_CORRIDOR;
-  Func<dynamic, dynamic, bool> fakeRootMarsAboutToDieTest = (thisOld, thisCurrent) => thisCurrent.mission5LevelState == MISSION5_IN_FAKE_ROOT_MARS && thisCurrent.fakeRootMarsState != 0;
-  Func<dynamic, dynamic, bool> finishedMission5FakeRootMarsTest = (thisOld, thisCurrent) => thisCurrent.fakeRootMarsState != thisOld.fakeRootMarsState;
+  Func<dynamic, dynamic, bool> finishedMission5FakeRootMarsTest = (thisOld, thisCurrent) => thisCurrent.mission5LevelState == MISSION5_IN_CLONE_BUBBLE_CORRIDOR;
   Func<dynamic, dynamic, bool> finishedMission5CloneBubbleTest = (thisOld, thisCurrent) => thisCurrent.mission5LevelState == MISSION5_IN_CLONE_BUBBLE && thisCurrent.isCloneBubbleDead == MISSION5_CLONE_BUBBLE_DEAD;
+  Func<dynamic, dynamic, bool> finishedMission5TrueRootMarsTest = (thisOld, thisCurrent) => thisCurrent.mission5LevelState == MISSION5_IN_TRUE_ROOT_MARS && thisCurrent.isTrueRootMarsDead == MISSION5_TRUE_ROOT_MARS_DEAD;
 
   Func<dynamic, dynamic, int> finishedMission1BeachSplit = (thisOld, thisCurrent) => split(thisOld, thisCurrent, finishedMission1BeachSplitTest);
   Func<dynamic, dynamic, int> finishedMission1StorageSplit = (thisOld, thisCurrent) => split(thisOld, thisCurrent, finishedMission1StorageSplitTest);
@@ -134,9 +135,9 @@ startup {
   Func<dynamic, dynamic, int> finishedMission5Rugname = (thisOld, thisCurrent) => split(thisOld, thisCurrent, finishedMission5RugnameTest);
   Func<dynamic, dynamic, int> finishedMission5RugnameChute = (thisOld, thisCurrent) => split(thisOld, thisCurrent, finishedMission5RugnameChuteTest);
   Func<dynamic, dynamic, int> finishedMission5SaveMorden = (thisOld, thisCurrent) => split(thisOld, thisCurrent, finishedMission5SaveMordenTest);
-  Func<dynamic, dynamic, int> fakeRootMarsAboutToDie = (thisOld, thisCurrent) => quietSplit(thisOld, thisCurrent, fakeRootMarsAboutToDieTest);
   Func<dynamic, dynamic, int> finishedMission5FakeRootMars = (thisOld, thisCurrent) => split(thisOld, thisCurrent, finishedMission5FakeRootMarsTest);
   Func<dynamic, dynamic, int> finishedMission5CloneBubble = (thisOld, thisCurrent) => split(thisOld, thisCurrent, finishedMission5CloneBubbleTest);
+  Func<dynamic, dynamic, int> finishedMission5TrueRootMars = (thisOld, thisCurrent) => split(thisOld, thisCurrent, finishedMission5TrueRootMarsTest);
 
   // Function to initialise split queue ready for a new run
   Action<dynamic> initialiseSplits = thisSettings => {
@@ -174,12 +175,9 @@ startup {
     if (thisSettings["mission5_Rugname"]) vars.splits.Enqueue(finishedMission5Rugname);
     if (thisSettings["mission5_RugnameChute"]) vars.splits.Enqueue(finishedMission5RugnameChute);
     if (thisSettings["mission5_SaveMorden"]) vars.splits.Enqueue(finishedMission5SaveMorden);
-    if (thisSettings["mission5_FakeRootMars"]) {
-      vars.splits.Enqueue(fakeRootMarsAboutToDie);
-      vars.splits.Enqueue(finishedMission5FakeRootMars);
-      vars.splits.Enqueue(finishedMission5FakeRootMars); // Not a mistake the state changes twice during the fight
-    }
+    if (thisSettings["mission5_FakeRootMars"]) vars.splits.Enqueue(finishedMission5FakeRootMars);
     if (thisSettings["mission5_CloneBubble"]) vars.splits.Enqueue(finishedMission5CloneBubble);
+    if (thisSettings["mission5_TrueRootMars"]) vars.splits.Enqueue(finishedMission5TrueRootMars);
   };
 
   vars.initialiseSplits = initialiseSplits;
@@ -212,6 +210,7 @@ startup {
   settings.Add("mission5_SaveMorden", true, "Mission 5 - Save Morden", "mission5");
   settings.Add("mission5_FakeRootMars", true, "Mission 5 - Fake Root Mars", "mission5");
   settings.Add("mission5_CloneBubble", true, "Mission 5 - Clone Bubble", "mission5");
+  settings.Add("mission5_TrueRootMars", true, "Mission 5 - True Root Mars", "mission5");
 }
 
 init {
