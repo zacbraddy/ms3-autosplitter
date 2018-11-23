@@ -227,7 +227,7 @@ reset {
 start {
   // Settings don't cause a restart so this is the best way of reloading split settings without having to reload the autosplitter
   vars.initialiseSplits(settings);
-  if (settings["mission1_Beach"] && vars.splits.Peek()(old, current) > vars.DONT_SPLIT) {
+  if (settings["mission1"] && vars.splits.Peek()(old, current) > vars.DONT_SPLIT) {
     vars.splits.Dequeue();
     return true;
   }
