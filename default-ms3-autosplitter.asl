@@ -123,13 +123,13 @@ split {
   } else if (vars.split == 18 && current.mission5LevelState == vars.MISSION5_FAKE_ROOT_MARS_CORRIDOR) {
     vars.split++;
     return true;
-  } else if (vars.split == 17 && current.mission5LevelState == vars.MISSION5_IN_CLONE_BUBBLE_CORRIDOR) {
+  } else if (vars.split == 19 && current.mission5LevelState == vars.MISSION5_IN_CLONE_BUBBLE_CORRIDOR) {
     vars.split++;
     return true;
-  } else if (vars.split == 18 && current.mission5LevelState == vars.MISSION5_IN_CLONE_BUBBLE && current.isCloneBubbleDead == vars.MISSION5_CLONE_BUBBLE_DEAD) {
+  } else if (vars.split == 20 && current.mission5LevelState == vars.MISSION5_IN_CLONE_BUBBLE && current.isCloneBubbleDead == vars.MISSION5_CLONE_BUBBLE_DEAD) {
     vars.split++;
     return true;
-  } else if (vars.split == 19 && current.mission5LevelState == vars.MISSION5_IN_TRUE_ROOT_MARS && current.isTrueRootMarsDead == vars.MISSION5_TRUE_ROOT_MARS_DEAD) {
+  } else if (vars.split == 21 && current.mission5LevelState == vars.MISSION5_IN_TRUE_ROOT_MARS && current.isTrueRootMarsDead == vars.MISSION5_TRUE_ROOT_MARS_DEAD) {
     vars.split++;
     return true;
   }
