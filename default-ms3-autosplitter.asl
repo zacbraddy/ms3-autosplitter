@@ -46,6 +46,7 @@ startup {
   vars.MISSION5_CLONE_BUBBLE_DEAD = 292567903;
   vars.MISSION5_IN_CLONE_BUBBLE = 274726912;
   vars.MISSION5_IN_TRUE_ROOT_MARS = 292568862;
+  /* Examples of values in True root mars dead for each character, found these to be a bit random */
   vars.MISSION5_TRUE_ROOT_MARS_DEAD_FOR_ERI = 339738624;
   vars.MISSION5_TRUE_ROOT_MARS_DEAD_FOR_MARCO = 1660944384;
   vars.MISSION5_TRUE_ROOT_MARS_DEAD_FOR_FIO = 339738624;
@@ -132,15 +133,9 @@ split {
   } else if (vars.split == 20 && current.mission5LevelState == vars.MISSION5_IN_CLONE_BUBBLE && current.isCloneBubbleDead == vars.MISSION5_CLONE_BUBBLE_DEAD) {
     vars.split++;
     return true;
-  } else if (
-    vars.split == 21 
-    && current.mission5LevelState == vars.MISSION5_IN_TRUE_ROOT_MARS 
-    && (
-      current.isTrueRootMarsDead == vars.MISSION5_TRUE_ROOT_MARS_DEAD_MARCO
-      || current.isTrueRootMarsDead == vars.MISSION5_TRUE_ROOT_MARS_DEAD_ERI
-      || current.isTrueRootMarsDead == vars.MISSION5_TRUE_ROOT_MARS_DEAD_FIO
-      || current.isTrueRootMarsDead == vars.MISSION5_TRUE_ROOT_MARS_DEAD_TARMA)
-    ) {
+  } else if (vars.split == 21 && current.mission5LevelState == vars.MISSION5_IN_TRUE_ROOT_MARS) {
+    vars.split++;
+  } else if (vars.split == 22 && current.mission5LevelState == vars.MISSION5_IN_TRUE_ROOT_MARS && current.isTrueRootMarsDead != old.isTrueRootMarsDead) {
     vars.split++;
     return true;
   }
