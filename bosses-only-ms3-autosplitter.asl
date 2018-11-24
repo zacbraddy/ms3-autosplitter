@@ -28,6 +28,9 @@ startup {
   vars.MISSION5_FAKE_ROOT_MARS_CORRIDOR = 275789385;
   vars.MISSION5_IN_CLONE_BUBBLE_CORRIDOR = 359675891;
   vars.MISSION5_IN_TRUE_ROOT_MARS = 292568862;
+  vars.MISSION5_TRUE_ROOT_MARS_DEAD_FOR_ERI = 339738624;
+  vars.MISSION5_TRUE_ROOT_MARS_DEAD_FOR_FIO = 339738624;
+  vars.MISSION5_TRUE_ROOT_MARS_DEAD_FOR_TARMA = 638582784;
   vars.MISSION5_TRUE_ROOT_MARS_DEAD = 339738624;
 
   vars.split = 0;
@@ -73,7 +76,15 @@ split {
   } else if (vars.split == 7 && current.mission5LevelState == vars.MISSION5_FAKE_ROOT_MARS_CORRIDOR) {
     vars.split++;
     return true;
-  } else if (vars.split == 8 && current.mission5LevelState == vars.MISSION5_IN_TRUE_ROOT_MARS && current.isTrueRootMarsDead == vars.MISSION5_TRUE_ROOT_MARS_DEAD) {
+  } else if (
+    vars.split == 8 
+    && current.mission5LevelState == vars.MISSION5_IN_TRUE_ROOT_MARS 
+    && (
+      current.isTrueRootMarsDead == vars.MISSION5_TRUE_ROOT_MARS_DEAD_MARCO
+      || current.isTrueRootMarsDead == vars.MISSION5_TRUE_ROOT_MARS_DEAD_ERI
+      || current.isTrueRootMarsDead == vars.MISSION5_TRUE_ROOT_MARS_DEAD_FIO
+      || current.isTrueRootMarsDead == vars.MISSION5_TRUE_ROOT_MARS_DEAD_TARMA)
+    ) {
     vars.split++;
     return true;
   }
