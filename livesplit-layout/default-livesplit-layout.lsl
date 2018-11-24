@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <Layout version="1.6.1">
   <Mode>Vertical</Mode>
-  <X>1412</X>
-  <Y>202</Y>
+  <X>2043</X>
+  <Y>173</Y>
   <VerticalWidth>427</VerticalWidth>
   <VerticalHeight>704</VerticalHeight>
   <HorizontalWidth>-1</HorizontalWidth>
@@ -297,32 +297,7 @@
         <Start>True</Start>
         <Reset>True</Reset>
         <Split>True</Split>
-        <CustomSettings>
-          <Setting id="mission1" type="bool">True</Setting>
-          <Setting id="mission1_Beach" type="bool">True</Setting>
-          <Setting id="mission1_Storage" type="bool">True</Setting>
-          <Setting id="mission1_HugeHermit" type="bool">True</Setting>
-          <Setting id="mission2" type="bool">True</Setting>
-          <Setting id="mission2_10CommandmentsOfMoses" type="bool">True</Setting>
-          <Setting id="mission3" type="bool">True</Setting>
-          <Setting id="mission3_Scuba" type="bool">True</Setting>
-          <Setting id="mission3_Boardwalk" type="bool">True</Setting>
-          <Setting id="mission3_JupiterKing" type="bool">True</Setting>
-          <Setting id="mission4" type="bool">True</Setting>
-          <Setting id="mission4_Desert" type="bool">True</Setting>
-          <Setting id="mission4_Temple" type="bool">True</Setting>
-          <Setting id="mission4_SolDaeRokker" type="bool">True</Setting>
-          <Setting id="mission5" type="bool">True</Setting>
-          <Setting id="mission5_DogFight" type="bool">True</Setting>
-          <Setting id="mission5_Oneil" type="bool">True</Setting>
-          <Setting id="mission5_HiDo" type="bool">True</Setting>
-          <Setting id="mission5_Rugname" type="bool">True</Setting>
-          <Setting id="mission5_RugnameChute" type="bool">True</Setting>
-          <Setting id="mission5_SaveMorden" type="bool">True</Setting>
-          <Setting id="mission5_FakeRootMars" type="bool">True</Setting>
-          <Setting id="mission5_CloneBubble" type="bool">True</Setting>
-          <Setting id="mission5_TrueRootMars" type="bool">True</Setting>
-        </CustomSettings>
+        <CustomSettings />
       </Settings>
     </Component>
   </Components>
